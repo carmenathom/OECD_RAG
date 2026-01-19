@@ -3,7 +3,7 @@ import json
 from pypdf import PdfReader
 
 RAW_DIR = "../../data/raw"
-EXTRACT_DIR = "../../data/processed"
+EXTRACT_DIR = "../../data/processed/raw_text"
 os.makedirs(EXTRACT_DIR, exist_ok = True)
 
 for filename in os.listdir(RAW_DIR):
