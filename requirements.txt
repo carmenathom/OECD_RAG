@@ -3,3 +3,5 @@ pypdf
 spacy
 sentence_transformers
 transformers
+torch
+faiss

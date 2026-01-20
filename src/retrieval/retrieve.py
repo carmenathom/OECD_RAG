@@ -4,6 +4,7 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from typing import List, Dict
+from src.rag.config import DEVICE
 
 EMBED_DIR = "data/embeddings"
 INDEX_PATH = os.path.join(EMBED_DIR, "faiss.index")
@@ -22,8 +23,7 @@ index = faiss.read_index(INDEX_PATH)
 with open(METADATA_PATH, "r", encoding = "utf-8") as f:
     metadata = json.load(f)
 
-model = SentenceTransformer(MODEL_NAME)
-
+model = SentenceTransformer(MODEL_NAME, device=str(DEVICE))
 
 def retrieve(
     query: str,

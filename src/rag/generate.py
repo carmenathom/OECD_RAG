@@ -1,10 +1,9 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from typing import Dict
+from src.rag.config import DEVICE, DTYPE
 
 MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-DTYPE = torch.float16 if DEVICE == "cuda" else torch.float32
 
 MAX_NEW_TOKENS = 512
 TEMPERATURE = 0.2
@@ -13,33 +12,33 @@ DO_SAMPLE = True
 REPETITION_PENALTY = 1.1
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+# Load model with dtype, then move to DEVICE
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME,
-    dtype = DTYPE,
-    device_map = "auto"
+    torch_dtype=DTYPE
 )
+model.to(DEVICE)
 model.eval()
-
 
 def generate_answer(prompt: str) -> Dict:
     if not prompt.strip():
         raise ValueError("Prompt must be non-empty")
 
-    inputs = tokenizer(prompt, return_tensors = "pt").to(model.device)
+    inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
 
     with torch.no_grad():
         output_ids = model.generate(
             **inputs,
-            max_new_tokens = MAX_NEW_TOKENS,
-            temperature = TEMPERATURE,
-            top_p = TOP_P,
-            do_sample = DO_SAMPLE,
-            repetition_penalty = REPETITION_PENALTY,
-            eos_token_id = tokenizer.eos_token_id
+            max_new_tokens=MAX_NEW_TOKENS,
+            temperature=TEMPERATURE,
+            top_p=TOP_P,
+            do_sample=DO_SAMPLE,
+            repetition_penalty=REPETITION_PENALTY,
+            eos_token_id=tokenizer.eos_token_id
         )
 
-    text = tokenizer.decode(output_ids[0], skip_special_tokens = True)
-
+    text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
     if text.startswith(prompt):
         text = text[len(prompt):].strip()
 
