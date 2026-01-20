@@ -19,3 +19,9 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+    # NEW: Compose v2 GPU support
+    # Use `device_requests` instead of `runtime: nvidia`
+    device_requests:
+      - driver: nvidia
+        count: 1
+        capabilities: ["gpu"]
