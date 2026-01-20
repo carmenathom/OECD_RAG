@@ -1,2 +1,5 @@
+numpy
 pypdf
 spacy
+sentence_transformers
+transformers

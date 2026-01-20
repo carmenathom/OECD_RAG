@@ -3,7 +3,7 @@ import json
 import spacy
 from typing import List
 
-RAW_DIR = "../../data/processed/raw_text"
+CLEAN_DIR = "../../data/processed/clean_text"
 CHUNK_DIR = "../../data/processed/chunked_text"
 os.makedirs(CHUNK_DIR, exist_ok = True)
 
@@ -47,11 +47,11 @@ def build_chunks(sentences: List[str]) -> List[str]:
 
     return chunks
 
-for filename in os.listdir(RAW_DIR):
-    if not filename.endswith("_RAW_TEXT.json"):
+for filename in os.listdir(CLEAN_DIR):
+    if not filename.endswith("_CLEAN_TEXT.json"):
         continue
 
-    input_path = os.path.join(RAW_DIR, filename)
+    input_path = os.path.join(CLEAN_DIR, filename)
     with open(input_path, "r", encoding = "utf-8") as f:
         data = json.load(f)
 
