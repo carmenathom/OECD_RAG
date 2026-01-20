@@ -1,8 +1,6 @@
-numpy
+numpy<2
 pypdf
 spacy
 sentence_transformers
 transformers
-torch
 faiss-cpu
-faiss-gpu

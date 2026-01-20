@@ -1,14 +1,15 @@
-import torch.multiprocessing
-from src.retrieval.retrieve import retrieve
-from src.rag.prompt import build_prompt
-from src.rag.generate import generate_answer
-
-
 def main():
-    torch.multiprocessing.set_start_method("spawn", force = True)
+    import torch
+    import torch.multiprocessing
+    torch.multiprocessing.set_start_method("spawn", force=True)
+
     query = input("Question: ")
 
-    retrieved = retrieve(query, k = 5)
+    from src.retrieval.retrieve import retrieve
+    from src.rag.prompt import build_prompt
+    from src.rag.generate import generate_answer
+
+    retrieved = retrieve(query, k=5)
     prompt = build_prompt(query, retrieved)
     result = generate_answer(prompt)
 

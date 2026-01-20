@@ -3,7 +3,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from typing import Dict
 from src.rag.config import DEVICE, DTYPE
 
-MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
+MODEL_NAME = "ministral/Ministral-3b-instruct"
 
 MAX_NEW_TOKENS = 512
 TEMPERATURE = 0.2
@@ -13,7 +13,6 @@ REPETITION_PENALTY = 1.1
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-# Load model with dtype, then move to DEVICE
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME,
     torch_dtype=DTYPE

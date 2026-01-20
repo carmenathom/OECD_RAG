@@ -1,24 +1,24 @@
-FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04
+FROM python:3.11-slim
 
 WORKDIR /app
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    python3.10 \
-    python3-pip \
-    git \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
+# Copy requirements first for better caching
 COPY requirements.txt .
 
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy application code
 COPY . .
 
+# Set Python to run in unbuffered mode and add /app to Python path
 ENV PYTHONUNBUFFERED=1
-ENV CUDA_VISIBLE_DEVICES=0
+ENV PYTHONPATH=/app
 
-RUN mkdir -p data/raw data/processed data/embeddings
-
+# Default command
 CMD ["python", "src/app/cli.py"]

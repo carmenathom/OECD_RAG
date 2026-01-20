@@ -1,27 +1,12 @@
 services:
-  rag-system:
-    build: .
-    image: oecd-rag-system:latest
-    container_name: oecd-rag-cuda
+  rag-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-cli
     stdin_open: true
     tty: true
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
-      - CUDA_VISIBLE_DEVICES=0
     volumes:
-      - ./data:/app/data
-      - ./src:/app/src
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-    # NEW: Compose v2 GPU support
-    # Use `device_requests` instead of `runtime: nvidia`
-    device_requests:
-      - driver: nvidia
-        count: 1
-        capabilities: ["gpu"]
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
