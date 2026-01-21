@@ -7,6 +7,13 @@ This project implements a retrieval-augmented generation (RAG) pipeline for auto
 
 The primary goal is to reduce manual research time when working with long-form policy and economic reports, while maintaining transparency and reproducibility.
 
+### Running/Docker Usage
+Build and run the container:
+```
+sudo docker compose build
+sudo docker compose run --rm rag-app
+```
+Docker ensures a reproducible environment across systems.
 
 ### Repository Structure
 ```
